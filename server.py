@@ -18,8 +18,8 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind(("0.0.0.0", 2052))
 s.listen()
 
-try:
-    while True:
+while True:
+    try:
         c, addr = s.accept()
         data = c.recv(1024)
         request_value = data.decode()
@@ -83,8 +83,8 @@ try:
                 c.send("invalid".encode())
 
         c.close()
-except UnicodeDecodeError:
-    print("Recieved invalid packet. Ignoring...")
-except Exception as e:
-    s.close()
-    raise e
+    except UnicodeDecodeError:
+        print("Recieved invalid packet. Ignoring...")
+    except Exception as e:
+        s.close()
+        raise e
