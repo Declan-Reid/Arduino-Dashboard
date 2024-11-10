@@ -30,8 +30,6 @@ try:
 
         request_data = request_value.split(";")
 
-        print(request_data[0])
-
         match request_data[0]:
             case "press_button":
                 button_count += 1
@@ -85,6 +83,8 @@ try:
                 c.send("invalid".encode())
 
         c.close()
+except UnicodeDecodeError:
+    print("Recieved invalid packet. Ignoring...")
 except Exception as e:
     s.close()
     raise e
