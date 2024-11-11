@@ -10,5 +10,5 @@ setInterval(function () {
         "auto ".repeat(columns);
     // document.getElementById("grid-container").style.marginRight = (screenWidth - 40 - ((400 + 20) * columns)) / (columns -1) * -1 + "px";
     document.getElementById("grid-container").style.width =
-        columns * 400 + (columns - 1) * 20;
+        columns * 400 + (columns - 2) * 20;
 }, 0);
