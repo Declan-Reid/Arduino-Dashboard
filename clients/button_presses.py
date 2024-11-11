@@ -2,8 +2,8 @@ import socket
 import time
 import os
 
-server_ip = "141.147.99.65"
-server_port = 4269
+server_ip = "arduino.declan-reid.me"
+server_port = 2052
 
 while True:
     try:
