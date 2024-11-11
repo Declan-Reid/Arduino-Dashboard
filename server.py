@@ -85,6 +85,8 @@ while True:
         c.close()
     except UnicodeDecodeError:
         print("Recieved invalid packet. Ignoring...")
+    except ConnectionResetError:
+        print("Socket closed unexpectedly. Expect madness to come.")
     except Exception as e:
         s.close()
         raise e
