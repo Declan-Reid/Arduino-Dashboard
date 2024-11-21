@@ -27,7 +27,6 @@ minecraft_server = {
     "name": "MoldyyBox Dev Server",
     "status": "Offline",
     "status_colour": "red",
-    "not_responding": True,
     "last_updated": 0,
     "Player Max": "N/A",
     "Player Count": "N/A",
@@ -38,7 +37,6 @@ pico_w_sensors = {
     "name": "Pico W Sensors",
     "status": "Offline",
     "status_colour": "red",
-    "not_responding": True,
     "last_updated": 0,
     "Temperature": "N/A",
     "Barometric Pressure": "N/A",
@@ -96,7 +94,6 @@ def do_server_thing():
                     minecraft_server["status_colour"] = "green"
                     minecraft_server["status"] = "Online"
                     minecraft_server["last_updated"] = int(datetime.datetime.now().timestamp())
-                    minecraft_server["not_responding"] = False
                     minecraft_server["Player Max"] = request_data[1]
                     minecraft_server["Player Count"] = request_data[2]
                     minecraft_server["MOTD"] = request_data[3]
@@ -105,7 +102,6 @@ def do_server_thing():
                 case "minecraft_server_close":
                     minecraft_server["status_colour"] = "red"
                     minecraft_server["status"] = "Offline"
-                    minecraft_server["not_responding"] = True
                     minecraft_server["Player Max"] = "N/A"
                     minecraft_server["Player Count"] = "N/A"
                     minecraft_server["MOTD"] = "N/A"
@@ -114,7 +110,6 @@ def do_server_thing():
                 case "set_pico_w_sensors":
                     pico_w_sensors["status_colour"] = "green"
                     pico_w_sensors["status"] = "Online"
-                    pico_w_sensors["not_responding"] = False
                     pico_w_sensors["last_updated"] = int(datetime.datetime.now().timestamp())
                     pico_w_sensors["Temperature"] = request_data[1]
                     pico_w_sensors["Barometric Pressure"] = request_data[2]
@@ -126,7 +121,6 @@ def do_server_thing():
                         "name": minecraft_server["name"],
                         "status_colour": minecraft_server["status_colour"],
                         "status": minecraft_server["status"],
-                        "not_responding": minecraft_server["not_responding"],
                         "Players": (
                             minecraft_server["Player Count"]
                             + " / "
@@ -141,7 +135,6 @@ def do_server_thing():
                         "name": pico_w_sensors["name"],
                         "status_colour": pico_w_sensors["status_colour"],
                         "status": pico_w_sensors["status"],
-                        "not_responding": pico_w_sensors["not_responding"],
                         "Temperature": pico_w_sensors["Temperature"],
                         "Barometric Pressure": pico_w_sensors["Barometric Pressure"],
                         "Humidity": pico_w_sensors["Humidity"],
@@ -178,26 +171,22 @@ def update_things():
         if minecraft_server["last_updated"] + 30 < int(datetime.datetime.now().timestamp()): # If it hasn't been updated for 30 seconds
             minecraft_server["status_colour"] = "red"
             minecraft_server["status"] = "Offline"
-            minecraft_server["not_responding"] = True
             minecraft_server["Player Max"] = "N/A"
             minecraft_server["Player Count"] = "N/A"
             minecraft_server["MOTD"] = "N/A"
         elif minecraft_server["last_updated"] + 5 < int(datetime.datetime.now().timestamp()): # If it hasn't been updated for 5 seconds
             minecraft_server["status_colour"] = "yellow"
             minecraft_server["status"] = "Not Responding"
-            minecraft_server["not_responding"] = True
             
         if pico_w_sensors["last_updated"] + 30 < int(datetime.datetime.now().timestamp()): # If it hasn't been updated for 30 seconds
             pico_w_sensors["status_colour"] = "red"
             pico_w_sensors["status"] = "Offline"
-            pico_w_sensors["not_responding"] = True
             pico_w_sensors["Temperature"] = "N/A"
             pico_w_sensors["Barometric Pressure"] = "N/A"
             pico_w_sensors["Humidity"] = "N/A"
         elif pico_w_sensors["last_updated"] + 5 < int(datetime.datetime.now().timestamp()): # If it hasn't been updated for 5 seconds
             pico_w_sensors["status_colour"] = "yellow"
             pico_w_sensors["status"] = "Not Responding"
-            pico_w_sensors["not_responding"] = True
 
 
         clear_screen()
