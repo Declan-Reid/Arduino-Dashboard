@@ -41,7 +41,7 @@ function connect() {
                     body_html += `<div class="info-container">`;
 
                     for (j in panel_data) {
-                        if (j != "name" && j != "status_colour")
+                        if (j != "name" && j != "status" && j != "status_colour")
                             body_html += `<div class="two-column-text"><p><b>${j}</b></p><p>${panel_data[j]}</p></div>`;
                     }
 
