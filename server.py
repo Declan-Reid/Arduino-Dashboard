@@ -21,7 +21,13 @@ class Colour:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
 
-button_count = 0
+ominous_button = {
+    "name": "Ominous Button",
+    "status": "Watching, as always.",
+    "status_colour": "green",
+    "last_updated": 0,
+    "Button Presses": 0,
+}
 
 minecraft_server = {
     "name": "MoldyyBox Dev Server",
@@ -84,11 +90,12 @@ def do_server_thing():
 
             match request_data[0]:
                 case "press_button":
-                    button_count += 1
+                    ominous_button["last_updated"] = int(datetime.datetime.now().timestamp())
+                    ominous_button["Button Presses"] += 1
                     pass
 
                 case "get_button_count":
-                    c.send(str(button_count).encode())
+                    c.send(str(ominous_button["Button Presses"]).encode())
 
                 case "set_minecraft_server_data":
                     minecraft_server["status_colour"] = "green"
@@ -140,9 +147,17 @@ def do_server_thing():
                         "Humidity": pico_w_sensors["Humidity"],
                     }
 
+                    button_presses_body = {
+                        "name": ominous_button["name"],
+                        "status_colour": ominous_button["status_colour"],
+                        "status": ominous_button["status"],
+                        "Button Presses": str(ominous_button["Button Presses"]),
+                    }
+
                     body = [
                         json.dumps(minecraft_server_body),
                         json.dumps(pico_w_sensors_body),
+                        json.dumps(button_presses_body),
                     ]
 
                     response = json.dumps(
@@ -205,7 +220,11 @@ def update_things():
             + 'Status: ' + getattr(Colour, pico_w_sensors["status_colour"].upper()) + pico_w_sensors["status"] + Colour.END + '\n'
             + 'Temperature: ' + pico_w_sensors["Temperature"] + '\n'
             + 'Barometric Pressure: ' + pico_w_sensors["Barometric Pressure"] + '\n'
-            + 'Humidity: ' + pico_w_sensors["Humidity"] + '\n\n',
+            + 'Humidity: ' + pico_w_sensors["Humidity"] + '\n\n'
+            
+            + Colour.BOLD + ominous_button["name"] + Colour.END + '\n'
+            + 'Status: ' + getattr(Colour, ominous_button["status_colour"].upper()) + ominous_button["status"] + Colour.END + '\n'
+            + 'Button Presses: ' + str(ominous_button["Button Presses"]) + '\n',
         end='')
 
         time.sleep(0.5)
