@@ -3,6 +3,7 @@ import json
 import datetime
 import time
 import os
+import sys
 import threading
 import asyncio
 import ssl
@@ -183,6 +184,9 @@ def do_server_thing():
 
 def update_things():
     while True:
+        if os.path.exists('.stop-server'):
+            sys.exit()
+
         if minecraft_server["last_updated"] + 30 < int(datetime.datetime.now().timestamp()): # If it hasn't been updated for 30 seconds
             minecraft_server["status_colour"] = "red"
             minecraft_server["status"] = "Offline"
