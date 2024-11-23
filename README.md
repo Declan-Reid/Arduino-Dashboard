@@ -1,4 +1,4 @@
-# Adruino Dashboard
+# Arduino Dashboard
 
 It's a dashboard! It shows live statistics from my to-be projects, and in the future the dashboard will be able to control them (with magical mind powers).
 
